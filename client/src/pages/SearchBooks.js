@@ -10,6 +10,7 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
+// import { searchGoogleBooks } from '../utils/API';
 import { useMutation } from '@apollo/client';
 import { SAVE_BOOK } from '../utils/mutations';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
@@ -40,6 +41,7 @@ const SearchBooks = () => {
     }
 
     try {
+      // const response = await searchGoogleBooks(searchInput);
       const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchInput}`);
 
       if (!response.ok) {
@@ -92,10 +94,35 @@ const SearchBooks = () => {
   return (
     <>
     
-     <div className="text-light bg-dark p-5">
+    <div className="text-light bg-dark p-5">
         <Container>
           <h1>Search for Books!</h1>
           <Form onSubmit={handleFormSubmit}>
+            <Row>
+              <Col xs={12} md={8}>
+                <Form.Control
+                  name='searchInput'
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  type='text'
+                  size='lg'
+                  placeholder='Search for a book'
+                />
+              </Col>
+              <Col xs={12} md={4}>
+                <Button type='submit' variant='success' size='lg'>
+                  Submit Search
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Container>
+      </div>
+
+     {/* <Form className="text-light bg-dark p-5">
+        <Container>
+          <h1>Search for Books!</h1>
+          <Form.Group onSubmit={handleFormSubmit}>
             <Form.Row>
               <Col xs={12} md={8}>
                 <Form.Control
@@ -113,11 +140,11 @@ const SearchBooks = () => {
                 </Button>
               </Col>
             </Form.Row>
-          </Form>
+          </Form.Group>
         </Container>
-      </div>
+      </Form> */}
 
-      {/* <Container>
+      <Container>
         <h2>
           {searchedBooks.length
             ? `Viewing ${searchedBooks.length} results:`
@@ -151,7 +178,7 @@ const SearchBooks = () => {
             );
           })}
         </Row>
-      </Container> */}
+      </Container>
     </>
   );
 };
